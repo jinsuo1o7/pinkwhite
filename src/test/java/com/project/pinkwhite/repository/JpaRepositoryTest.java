@@ -3,7 +3,6 @@ package com.project.pinkwhite.repository;
 import com.project.pinkwhite.config.AuditorConfig;
 import com.project.pinkwhite.domain.Article;
 import com.project.pinkwhite.domain.ArticleComment;
-import com.project.pinkwhite.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +19,18 @@ import static org.assertj.core.api.Assertions.*;
 @Import(AuditorConfig.class)
 @DataJpaTest
 class JpaRepositoryTest {
-    @Autowired ArticleRepository articleRepository;
-    @Autowired ArticleCommentRepository articleCommentRepository;
-    @Autowired MemberRepository memberRepository;
+    private final ArticleRepository articleRepository;
+    private final ArticleCommentRepository articleCommentRepository;
+    private final MemberRepository memberRepository;
+
+    public JpaRepositoryTest(@Autowired ArticleRepository articleRepository,
+                             @Autowired ArticleCommentRepository articleCommentRepository,
+                             @Autowired MemberRepository memberRepository
+    ) {
+        this.articleRepository = articleRepository;
+        this.articleCommentRepository = articleCommentRepository;
+        this.memberRepository = memberRepository;
+    }
 
     @DisplayName("select test")
     @Test
