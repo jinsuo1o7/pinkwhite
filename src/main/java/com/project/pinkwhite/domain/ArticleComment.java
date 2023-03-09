@@ -21,12 +21,13 @@ public class ArticleComment extends BaseEntity {
     private Long id;
 
     @Setter
+    @Column(nullable = false, length = 500)
     private String content;
 
     @Setter
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "article_article_id")
+    @JoinColumn(name = "article_id")
     private Article article;
 
     @ManyToOne(fetch = FetchType.LAZY)
