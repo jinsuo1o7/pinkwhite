@@ -35,16 +35,15 @@ public class Member extends BaseEntity {
     @Setter
     private String nickname;
 
-    private Member(Long id, String accountId, String accountPw, String email, String nickname) {
-        this.id = id;
+    private Member(String accountId, String accountPw, String email, String nickname) {
         this.accountId = accountId;
         this.accountPw = accountPw;
         this.email = email;
         this.nickname = nickname;
     }
 
-    public static Member of(Long id, String accountId, String accountPw, String email, String nickname) {
-        return new Member(id, accountId, accountPw, email, nickname);
+    public static Member of(String accountId, String accountPw, String email, String nickname) {
+        return new Member(accountId, accountPw, email, nickname);
     }
 
     @Override

@@ -28,6 +28,7 @@ public class Article extends BaseEntity {
     @Setter
     @Column(nullable = false, length = 10000)
     private String content;
+    @Setter
     private String hashtag;
 
     @ToString.Exclude
