@@ -1,8 +1,6 @@
 package com.project.pinkwhite.repository;
 
-import com.project.pinkwhite.dto.ArticleListDto;
-import com.project.pinkwhite.dto.QArticleListDto;
-import com.project.pinkwhite.dto.SearchCondition;
+import com.project.pinkwhite.dto.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
