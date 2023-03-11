@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * A DTO for the {@link ArticleDto} entity
  */
-public record ArticleWithComments(
+public record ArticleWithCommentsDto(
         Long id,
         String title,
         String content,
@@ -21,12 +21,12 @@ public record ArticleWithComments(
         String createdBy,
         String modifiedBy
 ) {
-    public static ArticleWithComments of(Long id, String title, String content, String hashtag, MemberDto memberDto, Set<ArticleCommentDto> articleWithComments, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
-        return new ArticleWithComments(id, title, content, hashtag, memberDto, articleWithComments, createdAt, modifiedAt, createdBy, modifiedBy);
+    public static ArticleWithCommentsDto of(Long id, String title, String content, String hashtag, MemberDto memberDto, Set<ArticleCommentDto> articleWithComments, LocalDateTime createdAt, LocalDateTime modifiedAt, String createdBy, String modifiedBy) {
+        return new ArticleWithCommentsDto(id, title, content, hashtag, memberDto, articleWithComments, createdAt, modifiedAt, createdBy, modifiedBy);
     }
 
-    public static ArticleWithComments toDto(Article entity) {
-        return ArticleWithComments.of(entity.getId(),
+    public static ArticleWithCommentsDto toDto(Article entity) {
+        return ArticleWithCommentsDto.of(entity.getId(),
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getHashtag(),

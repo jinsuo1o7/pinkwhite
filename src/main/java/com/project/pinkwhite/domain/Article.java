@@ -53,6 +53,10 @@ public class Article extends BaseEntity {
         return new Article(title, content, hashtag, member);
     }
 
+    public static Article createArticle(String title, String content, String hashtag) {
+        return new Article(title, content, hashtag, null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -1,10 +1,8 @@
 package com.project.pinkwhite.service;
 
+import com.project.pinkwhite.controller.ArticleRequest;
 import com.project.pinkwhite.domain.Article;
-import com.project.pinkwhite.dto.ArticleDetailDto;
-import com.project.pinkwhite.dto.ArticleDto;
-import com.project.pinkwhite.dto.ArticleListDto;
-import com.project.pinkwhite.dto.SearchCondition;
+import com.project.pinkwhite.dto.*;
 import com.project.pinkwhite.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,19 +18,20 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class ArticleService {
     private final ArticleRepository articleRepository;
-    public void saveArticle(ArticleDto dto) {
-        articleRepository.save(dto.toEntity());
+    public void saveArticle(ArticleRequest request) {
+        articleRepository.save(request.toEntity());
     }
 
     @Transactional(readOnly = true)
-    public Page<ArticleListDto> searchArticles(SearchCondition condition, Pageable pageable) {
-        return articleRepository.searchArticlesBy(condition, pageable);
+    public Page<ArticleListResponse> searchArticles(SearchCondition condition, Pageable pageable) {
+        return articleRepository.searchArticlesBy(condition, pageable).map(ArticleListResponse::toRes);
     }
 
     @Transactional(readOnly = true)
-    public ArticleDetailDto getArticleDetail(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() -> new EntityNotFoundException("Article Service getArticleDetail - entity not founded id : " + articleId));
-        return ArticleDetailDto.toDto(article);
+    public ArticleWithCommentsDto getArticleDetail(Long articleId) {
+        return articleRepository.findById(articleId)
+                .map(ArticleWithCommentsDto::toDto)
+                .orElseThrow(() -> new EntityNotFoundException("Article Service getArticleDetail - entity not founded id : " + articleId));
     }
 
     public void updateArticle(ArticleDto dto) {

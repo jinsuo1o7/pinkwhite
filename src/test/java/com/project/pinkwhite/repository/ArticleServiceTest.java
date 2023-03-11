@@ -1,6 +1,7 @@
 package com.project.pinkwhite.repository;
 
 import com.project.pinkwhite.dto.ArticleListDto;
+import com.project.pinkwhite.dto.ArticleListResponse;
 import com.project.pinkwhite.dto.SearchCondition;
 import com.project.pinkwhite.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +33,11 @@ class ArticleServiceTest {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
         // When
-        Page<ArticleListDto> dtos = articleService.searchArticles(cond, pageRequest);
-        for (ArticleListDto dto : dtos) {
-            log.info("{}", dto);
+        Page<ArticleListResponse> responses = articleService.searchArticles(cond, pageRequest);
+        for (ArticleListResponse response : responses) {
+            log.info("{}",response);
         }
-
         // Then
-        assertThat(dtos.getSize()).isEqualTo(10);
+        assertThat(responses.getSize()).isEqualTo(10);
     }
 }
