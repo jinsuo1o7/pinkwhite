@@ -1,11 +1,14 @@
 package com.project.pinkwhite.repository;
 
+import com.project.pinkwhite.domain.Article;
 import com.project.pinkwhite.dto.*;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
@@ -25,6 +28,13 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom{
 
     @Override
     public Page<ArticleListDto> searchArticlesBy(SearchCondition condition, Pageable pageable) {
+        Sort sort = pageable.getSort();
+        boolean isDescending = false;
+        if (sort.isSorted()) {
+            Sort.Order order = sort.iterator().next();
+            isDescending = order.isDescending();
+        }
+
         List<ArticleListDto> dto = queryFactory
                 .select(new QArticleListDto(article.id, article.title, article.content, article.hashtag, article.createdAt, member.nickname, member.accountId))
                 .from(article)
@@ -32,8 +42,8 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom{
                 .where(titleLike(condition.getTitle()),
                         contentLike(condition.getContent()),
                         hashtagLike(condition.getHashtag()),
-                        nicknameLike(condition.getNickname()),
-                        accountIdLike(condition.getAccountId()))
+                        nicknameLike(condition.getNickname()))
+                .orderBy(isDescending ? article.createdAt.desc() : article.createdAt.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -45,28 +55,23 @@ public class ArticleRepositoryCustomImpl implements ArticleRepositoryCustom{
                 .where(titleLike(condition.getTitle()),
                         contentLike(condition.getContent()),
                         hashtagLike(condition.getHashtag()),
-                        nicknameLike(condition.getNickname()),
-                        accountIdLike(condition.getAccountId()));
+                        nicknameLike(condition.getNickname()));
         return PageableExecutionUtils.getPage(dto, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression titleLike(String title) {
-        return title != null ? article.title.likeIgnoreCase(title) : null;
+        return title != null ? article.title.likeIgnoreCase("%" + title + "%") : null;
     }
 
     private BooleanExpression contentLike(String content) {
-        return content != null ? article.content.likeIgnoreCase(content) : null;
+        return content != null ? article.content.likeIgnoreCase("%" + content + "%") : null;
     }
 
     private BooleanExpression hashtagLike(String hashtag) {
-        return hashtag != null ? article.hashtag.likeIgnoreCase(hashtag) : null;
+        return hashtag != null ? article.hashtag.likeIgnoreCase("%" + hashtag + "%") : null;
     }
 
     private BooleanExpression nicknameLike(String nickname) {
-        return nickname != null ? member.nickname.likeIgnoreCase(nickname) : null;
-    }
-
-    private BooleanExpression accountIdLike(String accountId) {
-        return accountId != null ? member.accountId.likeIgnoreCase(accountId) : null;
+        return nickname != null ? member.nickname.likeIgnoreCase("%" + nickname + "%") : null;
     }
 }
