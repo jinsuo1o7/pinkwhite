@@ -1,6 +1,6 @@
 package com.project.pinkwhite.service;
 
-import com.project.pinkwhite.controller.ArticleRequest;
+import com.project.pinkwhite.dto.ArticleRequest;
 import com.project.pinkwhite.domain.Article;
 import com.project.pinkwhite.dto.*;
 import com.project.pinkwhite.repository.ArticleRepository;

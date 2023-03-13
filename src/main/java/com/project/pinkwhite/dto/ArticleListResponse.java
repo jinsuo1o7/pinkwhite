@@ -1,7 +1,5 @@
 package com.project.pinkwhite.dto;
 
-import com.querydsl.core.annotations.QueryProjection;
-
 import java.time.LocalDateTime;
 
 /**

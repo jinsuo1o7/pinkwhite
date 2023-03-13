@@ -1,4 +1,4 @@
-package com.project.pinkwhite.controller;
+package com.project.pinkwhite.dto;
 
 import com.project.pinkwhite.domain.Article;
 
